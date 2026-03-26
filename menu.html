@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Dishes</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/jannatnoorfastfood_favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        :root {
+            --primary: #ffcc00; 
+            --accent: #e31837;
+            --dark-deep: #050505;
+            --dark-card: #121212;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            --bounce: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--dark-deep); font-family: 'Poppins', sans-serif; color: var(--text-main); overflow-x: hidden; }
+
+        
+
+        .logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #fff; }
+        .logo span { color: var(--primary); }
+
+        .hero-banner {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1514356020712-ff8238ba4a7a?q=80&w=2070') center/cover;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 0 5%;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+
+        .hero-banner h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 5.5rem); color: var(--primary); line-height: 1; }
+
+        /* FIXED GRID: 3 BOXES PER LINE */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Exactly 3 per line */
+            gap: 100px 30px; 
+            padding: 120px 8% 100px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .category-box {
+            background: var(--dark-card);
+            border-radius: 35px; position: relative;
+            padding: 85px 20px 30px; border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--bounce); display: flex; flex-direction: column;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .category-box:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: 0 25px 50px rgba(255, 204, 0, 0.15); }
+
+        .floating-img {
+            position: absolute; top: -70px; left: 50%;
+            transform: translateX(-50%); width: 160px; height: 160px;
+            filter: drop-shadow(0 20px 25px rgba(0,0,0,0.5));
+            transition: var(--bounce); pointer-events: none;
+        }
+
+        .box-header { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .box-header h2 { font-family: 'Oswald', sans-serif; font-size: 1.7rem; color: var(--primary); text-transform: uppercase; }
+
+        /* CENTERED DISH NAMES */
+        .product-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .product-item {
+            text-align: center; /* Names Centered */
+            padding: 10px; background: rgba(255,255,255,0.03);
+            border-radius: 12px; transition: 0.3s;
+            cursor: pointer;
+        }
+        .product-item:hover { background: var(--primary); color: var(--dark-deep); font-weight: 700; transform: scale(1.03); }
+
+        @media (max-width: 1100px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .menu-grid { grid-template-columns: 1fr; gap: 90px 0; } }
+
+    </style>
+    </head>
+<body>
+    <div class="sidebar-overlay" id="overlay"></div>
+
+    <div class="sidebar" id="sidebar">
+        <i class="fa fa-times close-sidebar" id="closeBtn"></i>
+        <ul class="side-menu">
+            <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="menu.html"><i class="fa fa-utensils"></i> Our Dishes</a></li>
+            <li><a href="gallery.html"><i class="fa fa-camera"></i> Photo Gallery</a></li>
+            <li><a href="about.html"><i class="fa fa-info-circle"></i> Our Story</a></li>
+            <li><a href="contact.html"><i class="fa fa-map-marker-alt"></i> Find Us</a></li>
+        </ul>
+        <a href="https://wa.me/+923429300010" class="nav-order-btn" style="display: block; text-align: center; margin-top: 20px;">Order Now</a>
+    </div>
+
+    <section id="top-bar">
+        <div class="top-bar-container">
+            <div class="top-bar-info">
+                <span><i class="fa fa-map-marker-alt"></i> Dandot Road Near Ladies Park Khewra</span>
+                <span><i class="fa fa-phone"></i> +92 342 9300010</span>
+            </div>
+        </div>
+    </section>
+
+    <header id="main-header">
+        <div class="header-container">
+            <div class="sidebar-toggle" id="openBtn">
+                <i class="fa fa-bars"></i>
+            </div>
+
+            <a href="index.html" class="brand-wrapper">
+                <img src="images/jannatnoorfastfood_favicon.png" alt="Logo" class="main-logo">
+                <div class="brand-text-box">
+                    <h1 class="brand-name">Jannat <span>Noor</span></h1>
+                    <span class="brand-location">Fast Food Cafe • Khewra</span>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="desktop-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Dishes</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">Story</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+
+                </ul>
+            </nav>
+
+            <a href="https://wa.me/+923429300010" class="nav-order-btn" style="font-size: 11px; padding: 8px 15px; display: inline-block; @media (min-width: 1024px) { display: none; }">Order Now</a>
+        </div>
+    </header>
+
+
+
+   
+    <section class="hero-banner">
+        <h1>Our Dishes</h1>
+        <p style="color:#aaa; letter-spacing:2px;">QUALITY INGREDIENTS • UNFORGETTABLE TASTE</p>
+    </section>
+
+    <main class="menu-grid">
+        <article class="category-box">
+            <img src="images/fastfood.png" class="floating-img" alt="Burgers">
+            <div class="box-header">
+                <h2>Burgers</h2>
+                <p>Juicy, Fresh & Flame Grilled</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Smash Beef Burger</li>
+                <li class="product-item">Mighty Zinger Patties Burger</li>
+                <li class="product-item">Special J-N Carnivores Grilled Burger</li>
+                <li class="product-item">Mexican Jalapeno Grilled Burger</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/italian.png" class="floating-img" alt="Pizza">
+            <div class="box-header">
+                <h2>Pizza</h2>
+                <p>Cheesy Perfection in Every Slice</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Crown Crust Pizza</li>
+                <li class="product-item">Chicken Tikka Pizza</li>
+                <li class="product-item">Malai Tikka Boti Pizza</li>
+                <li class="product-item">American Cheese Stuffed Crust Pizza</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/sandwiches.png" class="floating-img" alt="Sandwiches">
+            <div class="box-header">
+                <h2>Sandwiches</h2>
+                <p>Light, Fresh & Toasted</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">American Club Sandwich</li>
+                <li class="product-item">Mexican Chicken Grilled Sandwich</li>
+                <li class="product-item">Panini Grilled Sandwich</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/pasta.png" class="floating-img" alt="Pasta">
+            <div class="box-header">
+                <h2>Pasta</h2>
+                <p>Creamy Italian Delicacy</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Alfarido Fettuccina Pasta</li>
+                <li class="product-item">Baked Cranchy Pasta</li>
+                <li class="product-item">Cheese & Mac</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/wings.png" class="floating-img" alt="Wings">
+            <div class="box-header">
+                <h2>Wings</h2>
+                <p>Crispy, Saucy & Bold</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Mexican Jalapeno Baked Wings</li>
+                <li class="product-item">Honey Mustard Baked Wings</li>
+                <li class="product-item">Garlic Baked Wing</li>
+                <li class="product-item">Chicken Nuggets</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/injected_broast.png" class="floating-img" alt="Broast">
+            <div class="box-header">
+                <h2>Injected Broast</h2>
+                <p>Deep Fried Golden Perfection</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Full Broast (8 pcs)</li>
+                <li class="product-item">Half Broast (4 pcs)</li>
+                <li class="product-item">Quarter Broast (2 pcs)</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/wraps.png" class="floating-img" alt="Wraps">
+            <div class="box-header">
+                <h2>Wraps</h2>
+                <p>Soft Tortilla, Big Flavor</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Burrito Chicken Grilled Stuffed Cheese Wrap</li>
+                <li class="product-item">Turkish Mexican Jalapeno Grilled Wrap</li>
+                <li class="product-item">Turkish Kabab Cheese Wrap</li>
+                <li class="product-item">Turkish Crispy Wrap</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+        <article class="category-box">
+            <img src="images/shawrmas.png" class="floating-img" alt="Rolls">
+            <div class="box-header">
+                <h2>Shawarma & Rolls</h2>
+                <p>Traditional Desi Wrapped Goodness</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Bihari Cheese Roll Spin (4pc)</li>
+                <li class="product-item">Turkish Stuffed Cheese Paratha Roll</li>
+                <li class="product-item">Mexican Chicken Paratha Roll</li>
+                <li class="product-item">Crispy Shawarma Roll</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/fries.png" class="floating-img" alt="Fries">
+            <div class="box-header">
+                <h2>Fries</h2>
+                <p>Golden, Crispy & Always Fresh</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Loaded Crunchy Fries</li>
+                <li class="product-item">Loaded Pizza Fries</li>
+                <li class="product-item">Mayo Garlic Fries</li>
+                <li class="product-item">Masala Fries</li>
+                <li class="product-item">Salted Fries</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/shakes.png" class="floating-img" alt="Shakes">
+            <div class="box-header">
+                <h2>Shakes</h2>
+                <p>Thick, Creamy & Chilled</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Chocolate Shake (Special)</li>
+                <li class="product-item">Oreo Shake</li>
+                <li class="product-item">Caramel Shake</li>
+                <li class="product-item">Mango Shake</li>
+                <li class="product-item">+ Many More</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/mocktail.png" class="floating-img" alt="Mocktails">
+            <div class="box-header">
+                <h2>Mocktails</h2>
+                <p>Refreshing Fruity Blends</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">The Blue Tonic</li>
+                <li class="product-item">Mint Margarita</li>
+                <li class="product-item">Peach Ice Tea</li>
+                <li class="product-item">Lemonade</li>
+            </ul>
+        </article>
+
+        <article class="category-box">
+            <img src="images/icecream.png" class="floating-img" alt="Ice Cream">
+            <div class="box-header">
+                <h2>Ice Cream Shakes</h2>
+                <p>Double Scoop Dairy Indulgence</p>
+            </div>
+            <ul class="product-list">
+                <li class="product-item">Hot Chocolate Ice Shake</li>
+                <li class="product-item">Pistachio Ice Shake</li>
+                <li class="product-item">Caramel Ice Shake</li>
+                <li class="product-item">Mango Ice Shake</li>
+                <li class="product-item">+ More</li>
+            </ul>
+        </article>
+
+
+    </main> 
+    <script>
+        
+
+        // Simple Search Logic (Optional)
+        function searchFood() {
+            let input = document.getElementById('menuSearch').value.toLowerCase();
+            let boxes = document.getElementsByClassName('category-box');
+            
+            for (let i = 0; i < boxes.length; i++) {
+                let boxText = boxes[i].innerText.toLowerCase();
+                boxes[i].style.display = boxText.includes(input) ? "flex" : "none";
+            }
+        }
+    </script>
+
+    
+    <footer id="site-footer" class="footer-commercial">
+        <div class="container footer-wrapper">
+            
+            <div class="footer-grid-layout">
+                
+                <div class="footer-col brand-col" data-aos="fade-up">
+                    <div class="footer-logo-box">
+                        <img src="images/jannatnoorfastfood_favicon.png" alt="Jannat Noor Footer Logo" class="footer-logo-img">
+                        <div class="footer-brand-text">
+                            <h4>JANNAT <span>NOOR</span></h4>
+                            <small>Fast Food Cafe</small>
+                        </div>
+                    </div>
+                    <p class="brand-bio-text">
+                        <i class="fa-solid fa-map-pin" style="color: var(--clr-red); margin-right: 5px;"></i>
+                        Khewra ki sar-zameen par, zaiqe ka naya naam. Hum aap tak behtareen fast food pahochanay ke liye pur-azam hain.
+                    </p>
+                    <div class="footer-social-icons">
+                        
+                        <a href="http://googleusercontent.com/maps.google.com/9" target="_blank" title="Location on Maps" class="social-icon-box maps-hover">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </a>
+                        
+                        <a href="https://www.tiktok.com/@jannatnoorfastcafe" target="_blank" title="TikTok" class="social-icon-box tiktok-hover">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="https://wa.me/+923429300010" target="_blank" title="WhatsApp" class="social-icon-box whatsapp-hover">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col links-col" data-aos="fade-up" data-delay="150">
+                    <h5 class="footer-heading">Quick Navigation</h5>
+                    <div class="footer-line"></div>
+                    <ul class="footer-links-list">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Home Page</a></li>
+                        <li><a href="menu.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Explore Menu</a></li>
+                        <li><a href="gallery.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Photo Gallery</a></li>
+                        <li><a href="about.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Our History</a></li>
+                        <li><a href="contact.html"><i class="fa-solid fa-chevron-right link-arrow"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col links-col" data-aos="fade-up" data-delay="300">
+                    <h5 class="footer-heading">Food Categories</h5>
+                    <div class="footer-line"></div>
+                    <ul class="footer-links-list">
+                        <li><a href="menu.html#fast-food"><i class="fa-solid fa-burger category-icon"></i> Fast Food Specials</a></li>
+                        <li><a href="menu.html#italian"><i class="fa-solid fa-pizza-slice category-icon"></i> Italian Dishes</a></li>
+                        <li><a href="menu.html#fried-sides"><i class="fa-solid fa-drumstick-bite category-icon"></i> Fried & Sides</a></li>
+                        
+                        <li><a href="menu.html#drinks"><i class="fa-solid fa-wine-glass category-icon"></i> Drinks & Shakes</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom-bar">
+                <div class="bottom-flex-container">
+                    <div class="copyright-text">
+                        <p>© 2026 <strong>Jannat Noor Fast Food Cafe</strong>. All Rights Reserved. | Developed for <span>Khewra City</span>.</p>
+                    </div>
+                    <div class="footer-legal-links">
+                        <a href="privacy-policy.html">Privacy Policy</a>
+                        <a href="terms.html">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <a href="https://wa.me/+923429300010" class="floating-whatsapp-btn" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="pulse-ring"></span>
+    </a>
+
+    <button id="scrollToTopBtn" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script src="script.js"></script>
+</body>
+</html>
