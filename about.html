@@ -14,6 +14,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
      
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --clr-red: #e31e24;
+            --clr-black: #000000;
+            --clr-gold: #c6a434;
+            --clr-white: #ffffff;
+            --clr-grey: #f4f4f4;
+            --transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--clr-white); color: #333; overflow-x: hidden; line-height: 1.6; }
+
+        /* --- LOGO HEADER (Consistency with Home) --- */
+        .nav-header { padding: 20px 50px; background: white; display: flex; justify-content: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .brand-wrapper { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .main-logo { height: 50px; width: auto; }
+        .brand-text-box { display: flex; flex-direction: column; }
+        .brand-name { font-weight: 900; color: var(--clr-black); font-size: 20px; line-height: 0.9; text-transform: uppercase; }
+        .brand-name span { color: var(--clr-red); }
+        .brand-location { font-size: 10px; font-weight: 700; color: #666; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
+
+        /* --- HERO SECTION --- */
+        .about-hero {
+            height: 80vh;
+            background-color:#ffcc00;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center; padding: 20px;
+        }
+        .about-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 10px; color: #000000;}
+        .about-hero p { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: var(--clr-gold);color: #000000; }
+
+        /* --- STORY SECTION --- */
+        .story-section { padding: 100px 10%; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .story-img { position: relative; border-radius: 15px; overflow: hidden; box-shadow: 20px 20px 0 var(--clr-gold); }
+        .story-img img { width: 100%; display: block; transition: 0.5s; }
+        .story-content h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; position: relative; }
+        .story-content h2::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 60px; height: 3px; background: var(--clr-red); }
+        .story-content p { margin-bottom: 20px; font-size: 1.1rem; color: #555; }
+
+        /* --- KHEWRA HERITAGE (Special Section) --- */
+        .heritage-box { background: var(--clr-black); color: white; padding: 80px 10%; text-align: center; }
+        .heritage-box h2 { color: var(--clr-gold); font-size: 2.2rem; margin-bottom: 20px; }
+        .heritage-box p { max-width: 800px; margin: 0 auto; opacity: 0.9; font-style: italic; }
+
+        /* --- STATS COUNTER --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; padding: 80px 10%; background: var(--clr-grey); }
+        .stat-card h3 { font-size: 3rem; color: var(--clr-red); }
+        .stat-card p { font-weight: 700; text-transform: uppercase; font-size: 0.9rem; color: #777; }
+
+        /* --- CHEF SECTION --- */
+        .chef-section { padding: 100px 10%; display: flex; gap: 50px; align-items: center; flex-direction: row-reverse; }
+        .chef-info h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .chef-badge { display: inline-block; padding: 5px 15px; background: var(--clr-gold); color: black; font-weight: 700; font-size: 0.8rem; border-radius: 5px; margin-bottom: 10px; }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .story-section, .chef-section { grid-template-columns: 1fr; display: block; text-align: center; padding: 60px 5%; }
+            .story-img { margin-bottom: 30px; box-shadow: 10px 10px 0 var(--clr-gold); }
+            .stats-grid { grid-template-columns: 1fr; gap: 30px; }
+            .about-hero h1 { font-size: 3rem; }
+        }
+    </style>
 <body>
     <div class="sidebar-overlay" id="overlay"></div>
 
@@ -66,6 +135,100 @@
             <a href="https://wa.me/+923429300010" class="nav-order-btn" style="font-size: 11px; padding: 8px 15px; display: inline-block; @media (min-width: 1024px) { display: none; }">Order Now</a>
         </div>
     </header>
+
+
+    <section class="about-hero">
+        <p class="reveal">Welcome To Jannat Noor fast food cafe</p>
+        <h1 class="reveal">Zaiqa or Mayar ik Sath !</h1>
+    </section>
+
+    <section class="story-section">
+        <div class="story-img reveal">
+            <img src="images/poster.jpeg" alt="cafe image">
+            <img src="images/poster_2.jpeg" alt="cafe image">
+        </div>
+        <div class="story-content reveal">
+            <h2>The Beginning</h2>
+            <p>Jannat Noor Cafe ki shuruaat ek khwaab se hui hai aisi jagah banane ka khwaab jahan Khewra ki awam ko behtareen fast food ke saath ek pur-sukoon mahool mil sake.</p>
+            <h2>Our Mission</h2>
+            <p>Jannat noor fast food cafe khewra mein khola gia hai take jaisa log dur dur sa salt range khewra mein dekhne ate hai wsy hi log dur dur se jannat noor fast food cafe ke taste ko bar bar bar ty karne k liya ayein </p>
+        </div>
+    </section>
+
+    <section class="heritage-box reveal">
+        <h2>Heart of Khewra</h2>
+        <p>"Jaise Khewra ka Namak poori duniya mein mashhoor hai, hamari koshish hai ke Jannat Noor ka zaiqa bhi har dil mein bas jaye. Hum sirf khana nahi banate, hum yaadein banate hain."</p>
+
+    </section>
+
+    <section class="stats-grid">
+        <div class="stat-card reveal">
+            <h3 class="counter" data-target="10">0</h3>
+            <p>food categories</p>
+        </div>
+        <div class="stat-card reveal">
+            <h3 class="counter" data-target="75">0</h3>
+            <p>Different recipes</p>
+        </div>
+        <div class="stat-card reveal">
+            <h3 class="counter" data-target="1000">0</h3>
+            <p>monthly customers</p>
+        </div>
+    </section>
+
+    <section class="chef-section">
+        <div class="story-img reveal" style="box-shadow: -20px 20px 0 var(--clr-red);">
+            <img src="images/raja_qaiser.jpg" alt="Chef JN">
+        </div>
+        <div class="chef-info reveal">
+            <div class="chef-badge">FOUNDER & CEO</div>
+            <h2>The Person Behind the Taste</h2>
+            <p>Hamare har burger aur sandwich ke piche CEO ki dil se chuni hoi pasand. Hum sirf freshest ingredients use karte hain jo har roz markets se chunay jaate hain.</p>
+            <p>Hamara 'Secret Sauce' hi wo wajah hai jo logon ko baar baar yahan kheench lati hai.</p>
+        </div>
+    </section>
+
+    <script>
+        // --- REVEAL ON SCROLL ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- COUNTER ANIMATION ---
+        const counters = document.querySelectorAll('.counter');
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    const count = +entry.target.innerText;
+                    const speed = 200; 
+
+                    const updateCount = () => {
+                        const current = +entry.target.innerText;
+                        const inc = target / speed;
+                        if (current < target) {
+                            entry.target.innerText = Math.ceil(current + inc);
+                            setTimeout(updateCount, 10);
+                        } else {
+                            entry.target.innerText = target + "+";
+                        }
+                    };
+                    updateCount();
+                    countObserver.unobserve(entry.target); // Run only once
+                }
+            });
+        }, { threshold: 1.0 });
+
+        counters.forEach(counter => countObserver.observe(counter));
+    </script>
 
     <footer id="site-footer" class="footer-commercial">
         <div class="container footer-wrapper">

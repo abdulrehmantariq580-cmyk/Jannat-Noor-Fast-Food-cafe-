@@ -14,6 +14,322 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
      
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- 1. CSS VARIABLES & KEYFRAMES (Premium Theme) --- */
+        :root {
+            --dark-deep: #010101; /* Even darker */
+            --dark-surface: #0a0a0a;
+            --dark-panel: #111111;
+            --accent-gold: #c6a434; /* Richer gold */
+            --gold-glow: rgba(198, 164, 52, 0.3);
+            --text-bright: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --transition-speed: 0.4s;
+            --font-main: 'Poppins', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+        }
+
+        /* Essential fonts from Google */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+        }
+
+        body {
+            background-color: var(--dark-deep);
+            /* Subtle radial gradient to prevent flatness */
+            background-image: radial-gradient(circle at center, #0a0a0a 0%, #010101 100%);
+            color: var(--text-bright);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- 2. HEADER SECTION --- */
+        header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            position: relative;
+        }
+
+        header::after { /* Subtle underline glow */
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 150px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        header h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: capitalize;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* --- 3. FILTER TABS --- */
+        .gallery-container {
+            max-width: 1300px;
+            margin: 0 auto 100px;
+            padding: 0 30px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: var(--transition-speed);
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Animated underline for active/hover tabs */
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 0%; height: 2px;
+            background-color: var(--accent-gold);
+            transition: var(--transition-speed);
+            transform: translateX(-50%);
+            box-shadow: 0 0 5px var(--gold-glow);
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            color: var(--accent-gold);
+        }
+
+        .tab-btn:hover::after, .tab-btn.active::after {
+            width: 80%;
+        }
+
+        /* --- 4. MASONRY GALLERY GRID --- */
+        /* Using columns for true masonry with minimal CSS */
+        .gallery-grid {
+            column-count: 3;
+            column-gap: 20px;
+        }
+
+        .gallery-item {
+            display: inline-block; /* Essential for masonry columns */
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            background-color: var(--dark-panel);
+            border: 1px solid #1a1a1a;
+            transition: transform 0.2s ease, box-shadow var(--transition-speed) ease, opacity 0.5s ease;
+            /* Essential for 3D tilt effect */
+            perspective: 1000px;
+        }
+
+        /* Class added via JS for filtering animation */
+        .gallery-item.hidden {
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            pointer-events: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto; /* Required for varying masonry heights */
+            display: block;
+            transition: transform 0.6s ease;
+            /* Prevents the image from overflowing the border during tilt */
+            backface-visibility: hidden;
+        }
+
+        /* Hover Interaction: Perspective Tilt and Gold Glow */
+        .gallery-item:hover {
+            box-shadow: 0 10px 30px rgba(198, 164, 52, 0.25);
+            border-color: rgba(198, 164, 52, 0.4);
+        }
+
+        /* Refined Overlay */
+        .overlay {
+            position: absolute;
+            bottom: -100%; /* Hidden off-screen */
+            left: 0; right: 0;
+            height: 100%;
+            /* Gradient with blur for premium feel */
+            background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.5) 50%, transparent);
+            backdrop-filter: blur(2px);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease, bottom 0.5s ease;
+            z-index: 2;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+            bottom: 0;
+        }
+
+        .overlay h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            text-transform: capitalize;
+        }
+
+        .overlay p {
+            color: var(--text-bright);
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Example Poster Item - adding a badge */
+        .gallery-item.posters::before {
+            content: 'CAFÉ POSTER';
+            position: absolute;
+            top: 15px; right: 15px;
+            background-color: rgba(198, 164, 52, 0.9);
+            color: black;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 4px;
+            z-index: 3;
+            letter-spacing: 1px;
+        }
+
+        /* --- 5. ENHANCED LIGHTBOX (FULL GALLERY) --- */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .lightbox.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border: 2px solid #222;
+        }
+
+        /* Navigation Buttons */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(20,20,20,0.6);
+            border: 1px solid #333;
+            color: white;
+            padding: 20px 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .lightbox-nav:hover {
+            color: var(--accent-gold);
+            background: rgba(20,20,20,0.9);
+            border-color: var(--accent-gold);
+        }
+
+        .lightbox-nav.prev { left: -60px; }
+        .lightbox-nav.next { right: -60px; }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 3rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover { color: var(--accent-gold); }
+
+        /* Caption area in Lightbox */
+        #lightbox-caption {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            text-align: center;
+            width: 80%;
+            font-weight: 300;
+        }
+
+        #lightbox-caption strong { color: var(--accent-gold); display: block; margin-bottom: 2px;}
+
+        /* --- 6. RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            header h1 { font-size: 3rem; }
+            .gallery-grid { column-count: 2; }
+            .lightbox-nav.prev { left: 10px; }
+            .lightbox-nav.next { right: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.3rem; }
+            header p { font-size: 0.95rem; }
+            .filter-tabs { gap: 10px; }
+            .tab-btn { padding: 8px 18px; font-size: 0.9rem; }
+            .gallery-grid { column-count: 1; column-gap: 0; }
+        }
+    </style>
 <body>
     <div class="sidebar-overlay" id="overlay"></div>
 
@@ -66,6 +382,269 @@
             <a href="https://wa.me/+923429300010" class="nav-order-btn" style="font-size: 11px; padding: 8px 15px; display: inline-block; @media (min-width: 1024px) { display: none; }">Order Now</a>
         </div>
     </header>
+
+    <body>
+
+    <header>
+        <h1>Our Gallery</h1>
+        <p>Explore the sophisticated ambiance, artisanal details, and signature moments of Jannat Noor Cafe.</p>
+    </header>
+
+    <div class="gallery-container">
+        
+
+        <div class="gallery-grid" id="main-gallery">
+
+    <div class="gallery-item interior" >
+        <img src="images/ambiance.jpeg" alt="Ambiance">
+        <div class="overlay">
+            <h3>Outer view</h3>
+            <p>Cafe Entry</p>
+        </div>
+    </div>
+
+    <div class="gallery-item interior" >
+        <img src="images/ambiance_1.jpeg" alt="Coffee Bar">
+        <div class="overlay">
+            <h3>Drinks and Ice creams</h3>
+            <p>Refreshment material</p>
+        </div>
+    </div>
+
+    <div class="gallery-item interior" >
+        <img src="images/ambiance_2.jpeg" alt="Night Ambiance">
+        <div class="overlay">
+            <h3>Sitting Space</h3>
+            <p>Beautiful ambiance</p>
+        </div>
+    </div>
+
+    <div class="gallery-item interior" >
+        <img src="images/ambiance_3.jpeg" alt="Lounge Area">
+        <div class="overlay">
+            <h3>Decorations</h3>
+            <p>Beautiful decorations</p>
+        </div>
+    </div>
+
+    <div class="gallery-item interior" >
+        <img src="images/ambiance_4.jpeg" alt="Outdoor View">
+        <div class="overlay">
+            <h3>Counter</h3>
+            <p>For Billings</p>
+        </div>
+    </div>
+
+    <div class="gallery-item food" >
+        <img src="images/kitchen.jpeg" alt="Pasta">
+        <div class="overlay">
+            <h3>Kitchen view</h3>
+            <p>Amazing ovens and packing</p>
+        </div>
+    </div>
+
+    <div class="gallery-item food" >
+        <img src="images/kitchen_1.jpeg" alt="Ice Cream Shake">
+        <div class="overlay">
+            <h3>Kitchen view</h3>
+            <p>Amazing ovens and packing</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster_6.jpeg" alt="Live Music">
+        <div class="overlay">
+            <h3>Sunday Acoustics</h3>
+            <p>Event Poster</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster_5.jpeg" alt="New Cold Brew">
+        <div class="overlay">
+            <h3>Slush Drinks</h3>
+            <p>Refreshing Slushs available</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster_4.jpeg" alt="Weekend Buffet">
+        <div class="overlay">
+            <h3>Fast foods</h3>
+            <p>Pizza,burgers,and much more</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster_3.jpeg" alt="Happy Hour">
+        <div class="overlay">
+            <h3>Contact details</h3>
+            <p>Jannat noor fast food</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters">
+        <img src="images/poster_2.jpeg" alt="Student Offer">
+        <div class="overlay">
+            <h3>Our poster</h3>
+            <p>Jannat noor fast food cafe</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster_1.jpeg" alt="Grand Celebration">
+        <div class="overlay">
+            <h3>Refreshment poster</h3>
+            <p>lays,slushes and drinks</p>
+        </div>
+    </div>
+
+    <div class="gallery-item posters" >
+        <img src="images/poster.jpeg" alt="Combo Deals">
+        <div class="overlay">
+            <h3>Shop poster</h3>
+            <p>Jannat noor fast food cafe</p>
+        </div>
+    </div>
+
+</div>
+
+    <script>
+        // --- DATA STRUCTURE FOR LIGHTBOX ---
+        const galleryItemsData = [];
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach((item, index) => {
+            galleryItemsData.push({
+                src: item.querySelector('img').src,
+                caption: item.getAttribute('data-caption'),
+                category: item.classList.contains('food') ? 'Plate' : item.classList.contains('interior') ? 'Ambiance' : 'Poster',
+                element: item // Keep reference for index lookup
+            });
+        });
+
+        // --- 1. LIGHTBOX INTERACTION (Advanced navigation) ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        let currentItemIndex = 0;
+
+        // Open Lightbox
+        items.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentItemIndex = index;
+                showLightboxItem(currentItemIndex);
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Stop scrolling
+            });
+        });
+
+        function showLightboxItem(index) {
+            const data = galleryItemsData[index];
+            lightboxImg.src = data.src;
+            // Enhanced caption format: category > caption
+            lightboxCaption.innerHTML = `<strong>${data.category} View</strong> ${data.caption}`;
+        }
+
+        // Navigation controls
+        function navigateLightbox(direction) {
+            currentItemIndex += direction;
+            
+            // Seamless looping
+            if (currentItemIndex >= galleryItemsData.length) { currentItemIndex = 0; }
+            if (currentItemIndex < 0) { currentItemIndex = galleryItemsData.length - 1; }
+            
+            showLightboxItem(currentItemIndex);
+        }
+
+        document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+        document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+        
+        // Close controls
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        
+        // Close on clicking outside the image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImg && e.target.id !== 'lightbox-next' && e.target.id !== 'lightbox-prev') {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation (Esc to close, left/right for nav)
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        });
+
+
+        // --- 2. FILTER INTERACTION (Animated fade) ---
+        const filterContainer = document.getElementById('filter-tabs');
+        
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn')) {
+                // Update active tab button
+                document.querySelector('.tab-btn.active').classList.remove('active');
+                e.target.classList.add('active');
+                
+                const filterValue = e.target.getAttribute('data-filter');
+                
+                items.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            }
+        });
+
+        // --- 3. 3D INTERACTIVE TILT EFFECT (Professional Polish) ---
+        items.forEach(item => {
+            item.addEventListener('mousemove', handleTiltMouseMove);
+            item.addEventListener('mouseleave', handleTiltMouseLeave);
+        });
+
+        function handleTiltMouseMove(e) {
+            const item = e.currentTarget;
+            const itemRect = item.getBoundingClientRect();
+            const image = item.querySelector('img');
+
+            // Calculate mouse position relative to center of the item (0,0 is center)
+            const mouseX = e.clientX - itemRect.left;
+            const mouseY = e.clientY - itemRect.top;
+            const centerX = itemRect.width / 2;
+            const centerY = itemRect.height / 2;
+            
+            // Rotation values (-10 to 10 degrees)
+            const rotateX = (centerY - mouseY) / (itemRect.height / 2) * 10;
+            const rotateY = (mouseX - centerX) / (itemRect.width / 2) * 10;
+            
+            // Translate values for subtle movement
+            const translateX = (mouseX - centerX) / (itemRect.width / 2) * 2;
+            const translateY = (mouseY - centerY) / (itemRect.height / 2) * 2;
+
+            // Apply transform to the image, not the item, for better overlay compatibility
+            image.style.transform = `scale(1.05) translate(${translateX}px, ${translateY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+
+        function handleTiltMouseLeave(e) {
+            const item = e.currentTarget;
+            const image = item.querySelector('img');
+            // Smoothly reset on leave
+            image.style.transition = 'transform 0.5s ease-out';
+            image.style.transform = 'scale(1) translate(0px, 0px) rotateX(0deg) rotateY(0deg)';
+            
+            // Temporary disable transition to allow mousemove smoothness again
+            setTimeout(() => { image.style.transition = ''; }, 500);
+        }
+
+    </script>
 
     <footer id="site-footer" class="footer-commercial">
         <div class="container footer-wrapper">
@@ -150,4 +729,4 @@
     </button>
     <script src="script.js"></script>
 </body>
-</html>s
+</html>
